@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 import os
 import matplotlib.pyplot as plt
+from datetime import datetime
 
 file_path = "War.csv"
 st.set_page_config(page_title="Israel-Gaza War", page_icon="🇵🇸")
@@ -56,7 +57,11 @@ if data is not None:
     st.sidebar.subheader("By: AL-Hassan Sarrar")
     num_events = len(data)
     st.sidebar.write("War day:", num_events)
-    st.sidebar.write("Date:", data.iloc[-1, 0], "(yesterday)")
+    lastdate = pd.to_datetime(data.iloc[-1, 0])
+    today = datetime.now()
+    days_ago = (today - lastdate).days
+    st.sidebar.write("Today:", str(today.month), "/", str(today.day), "/", str(today.year))
+    st.sidebar.write("Last Update:", str(lastdate.month), "/", str(lastdate.day), "/", str(lastdate.year), " - ", str(days_ago), " day(s) ago")
     casualties_columns_daily = [
         "ext_killed_daily",
         "ext_injured_daily",
